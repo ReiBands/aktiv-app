@@ -1,107 +1,183 @@
-# Aktiv — AI-Guided Structured Learning System
+# Aktiv
 
-Aktiv is a Streamlit prototype that enforces evidence-based study behavior through a locked, sequential learning cycle. Unlike general AI chatbots, Aktiv prevents passive consumption by requiring active user input at every stage before any AI feedback is shown.
+## Overview
 
----
+Aktiv is an AI-guided structured learning system designed to combat passive studying. Traditional AI chatbots make it easy for students to consume information without demonstrating understanding. Aktiv enforces active participation through a locked learning workflow that requires explanation, retrieval, feedback, and reflection before a study session can be completed.
 
-## What This App Does
-
-1. The user enters a topic or study material
-2. The user must explain what they already know (minimum 50 characters)
-3. AI evaluates the explanation — identifying what is correct, what is missing, and what is incorrect
-4. AI generates 2–3 active recall questions targeting the identified gaps
-5. The user answers all questions before any AI critique appears
-6. AI provides corrective feedback per answer; user must acknowledge it via checkbox
-7. User completes a structured reflection before the session closes
-
-The structure is the product. No stage can be skipped. No free-form AI access exists.
+Built as a Streamlit prototype, Aktiv explores how AI can support evidence-based learning rather than simply providing answers.
 
 ---
 
-## Local Setup
+## Problem
 
-### 1. Clone the repository
+Modern AI tools make information more accessible than ever, but they often encourage passive consumption.
 
-```bash
-git clone https://github.com/your-username/aktiv.git
-cd aktiv
-```
+A student can ask an AI a question, receive an answer, and feel as though they understand the material without ever testing their knowledge. Research on active recall and retrieval practice suggests that learning improves when students are required to retrieve information from memory rather than repeatedly reviewing content.
 
-### 2. Install dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-### 3. Configure your API key
-
-Create a file at `.streamlit/secrets.toml`:
-
-```toml
-OPENAI_API_KEY = "your-openai-api-key-here"
-```
-
-> ⚠️ Never commit this file. Add `.streamlit/secrets.toml` to your `.gitignore`.
-
-### 4. Run locally
-
-```bash
-streamlit run app.py
-```
+The challenge was to design an AI-powered learning system that encourages active participation instead of passive consumption.
 
 ---
 
-## Streamlit Community Cloud Deployment
+## Solution
 
-1. Push this repository to GitHub (ensure `secrets.toml` is in `.gitignore`)
-2. Go to [share.streamlit.io](https://share.streamlit.io)
-3. Click **New app** → select your repository and `app.py` as the entry point
-4. Under **Advanced settings → Secrets**, add:
+Aktiv implements a structured, stage-gated learning workflow.
 
-```toml
-OPENAI_API_KEY = "your-openai-api-key-here"
-```
+Rather than allowing unrestricted conversation with an AI, the application requires the learner to complete a series of mandatory steps before progressing.
 
-5. Click **Deploy**
+The workflow follows the sequence:
+
+1. Select a topic.
+2. Explain existing understanding.
+3. Receive AI-generated gap analysis.
+4. Answer targeted active recall questions.
+5. Receive corrective feedback.
+6. Acknowledge feedback.
+7. Complete reflection.
+
+Each stage must be completed before the next becomes available.
+
+The structure itself is the product.
 
 ---
 
-## Project Structure
+## Features
 
-```
+* AI-powered knowledge gap detection
+* Active recall question generation
+* Structured answer evaluation
+* Mandatory feedback acknowledgement
+* Reflection-based session completion
+* Session-based learning workflow
+* Stateless architecture with no persistent user storage
+
+---
+
+## Architecture
+
+### Tech Stack
+
+* Python
+* Streamlit
+* OpenAI API
+
+### Project Structure
+
+```text
 aktiv/
-├── app.py              # UI + stage-gate logic only
-├── prompts.py          # Three prompt-builder functions — no side effects
-├── openai_client.py    # Single API call function with full error handling
-├── requirements.txt    # streamlit, openai
-└── README.md           # This file
+├── app.py
+├── prompts.py
+├── openai_client.py
+├── requirements.txt
+└── README.md
 ```
+
+### System Flow
+
+User Input
+
+↓
+
+Knowledge Explanation
+
+↓
+
+AI Gap Analysis
+
+↓
+
+Active Recall Questions
+
+↓
+
+Student Answers
+
+↓
+
+AI Feedback
+
+↓
+
+Reflection
+
+↓
+
+Session Completion
+
+---
+
+## Demo
+
+### Walkthrough
+
+[Insert GIF walkthrough here]
+
+### Screenshots
+
+[Insert screenshots here]
+
+---
+
+## Lessons Learned
+
+### Learning Science Matters
+
+One of the biggest insights from this project was realizing that AI-powered education is not primarily a model problem—it is often a workflow problem.
+
+A highly capable model can still produce poor learning outcomes if students interact with it passively.
+
+### Constraints Create Better Behavior
+
+Many applications focus on giving users maximum flexibility. Aktiv explored the opposite idea: carefully designed constraints can improve engagement and learning outcomes.
+
+### Simplicity Improves Reliability
+
+Separating prompt generation, API interaction, and user interface logic made the application easier to maintain and debug.
+
+---
+
+## Future Improvements
+
+### Current State
+
+Aktiv currently functions as a proof-of-concept demonstrating a structured AI-guided learning workflow.
+
+### Planned Improvements
+
+* User accounts
+* Session history
+* Learning analytics dashboard
+* Progress tracking over time
+* Expanded study modes
+* Support for uploaded course materials
+* Personalized difficulty adjustment
+
+### Long-Term Vision
+
+The long-term goal is to evolve Aktiv into a learning platform that combines AI guidance with evidence-based educational practices. Rather than replacing traditional study methods, the system would act as a structured learning coach that encourages active recall, reflection, and long-term retention.
 
 ---
 
 ## AI Tools Disclosure
 
-This application was designed and built with the assistance of the following AI tools:
+This project was developed with assistance from Claude and OpenAI tools for architecture planning, prompt engineering, implementation support, and code review.
 
-| Tool | Usage |
-|------|-------|
-| Claude (Anthropic) | System architecture planning, prompt engineering, code generation, code review |
-| OpenAI GPT-4o-mini | Runtime AI evaluation, question generation, and answer critique within the app |
-
-All code was reviewed, validated, and intentionally structured by the developer. AI-generated code was not used blindly — each component was verified against a locked implementation specification.
-
----
-
-## Resources
-
-- Roediger, H. L., & Karpicke, J. D. (2006). *Test-Enhanced Learning: Taking Memory Tests Improves Long-Term Retention*. Psychological Science, 17(3), 249–255.
-- Bjork, R. A. (1994). *Memory and metamemory considerations in the training of human beings*. In J. Metcalfe & A. Shimamura (Eds.), Metacognition. MIT Press.
-- OpenAI API Documentation — https://platform.openai.com/docs
-- Streamlit Documentation — https://docs.streamlit.io
-- Streamlit Community Cloud — https://streamlit.io/cloud
+All design decisions, validation, and final implementation choices were made by the developer.
 
 ---
 
 ## Data & Privacy
 
-User inputs (topic, explanations, answers, reflections) are sent to the OpenAI API for processing during the session. No data is stored, logged, or persisted between sessions. Session state is cleared on browser refresh or when the user clicks "Study Another Topic."
+User inputs are sent to the OpenAI API during the active session for processing.
+
+No user data is stored, persisted, or retained by the application.
+
+Session data is cleared when the browser session ends or when a new study session begins.
+
+---
+
+## Resources
+
+* Roediger & Karpicke (2006) — Test-Enhanced Learning
+* Bjork (1994) — Memory and Metamemory Considerations
+* OpenAI API Documentation
+* Streamlit Documentation
